@@ -1413,61 +1413,76 @@
     </footer>
 
     <script>
-        // Your UPI ID - यहाँ अपना UPI ID डालें
+        // Your UPI ID
         const YOUR_UPI_ID = "hmoinuddin84@oksbi";
         
-        // Products Data
+        // Fixed Products Data with corrected syntax
         const products = [
             {
                 id: 1,
                 name: "Sohibe | Piggy Bank | Gullak | Super fine Quality | Coin Bank for kids,brother,sister,Adults,Gift",
                 price: 199,
-                image: "https://images.meesho.com/images/products/494742413/7y3kw_512.avif?width=512",
+                image: "https://images.meesho.com/images/products/494742413/7y3kw_512.webp",
                 images: [
-                    "https://images.meesho.com/images/products/494742413/7y3kw_512.avif?width=512",
-                    "https://images.meesho.com/images/products/494742413/0k737_512.avif?width=512",
-                    "https://images.meesho.com/images/products/494742413/up3dx_512.avif?width=512"
+                    "https://images.meesho.com/images/products/494742413/7y3kw_512.webp",
+                    "https://images.meesho.com/images/products/494742413/0k737_512.webp",
+                    "https://images.meesho.com/images/products/494742413/up3dx_512.webp"
                 ],
                 description: "Sohibe | Piggy Bank | Gullak | Super fine Quality | Coin Bank for kids,brother,sister,Adults,Gift",
                 category: "wood",
                 brand: "local",
                 rating: 4.5,
                 reviews: 128,
-                specifications: {"
-                    monye bank"
+                specifications: {
+                    "Material": "Ceramic",
+                    "Color": "Multicolor",
+                    "Size": "Medium",
+                    "Type": "Piggy Bank"
                 }
             },
             {
                 id: 2,
-                name: "manual chopper | vegetable chopper | hand chopper | mini chopper | kitchen chopper | 450 ML + 450 ML",
+                name: "Manual Chopper | Vegetable Chopper | Hand Chopper | Mini Chopper | Kitchen Chopper",
                 price: 249,
-                image: "https://images.meesho.com/images/products/68014029/ahzfm_512.avif?width=512",
+                image: "https://images.meesho.com/images/products/68014029/ahzfm_512.webp",
                 images: [
-                    "https://images.meesho.com/images/products/68014029/ahzfm_512.avif?width=512",
-                    "https://images.meesho.com/images/products/68014029/xatdh_512.avif?width=512",
-                    "https://images.meesho.com/images/products/68014029/rhakq_512.avif?width=512"
+                    "https://images.meesho.com/images/products/68014029/ahzfm_512.webp",
+                    "https://images.meesho.com/images/products/68014029/xatdh_512.webp",
+                    "https://images.meesho.com/images/products/68014029/rhakq_512.webp"
                 ],
-                description: "manual chopper | vegetable chopper | hand chopper | mini chopper | kitchen chopper ",
-                category: "gadgets",
+                description: "Manual chopper | vegetable chopper | hand chopper | mini chopper | kitchen chopper",
+                category: "kitchen",
                 brand: "local",
                 rating: 4.3,
                 reviews: 89,
+                specifications: {
+                    "Material": "Plastic",
+                    "Capacity": "450ml",
+                    "Color": "Green",
+                    "Type": "Hand Operated"
+                }
             },
             {
                 id: 3,
-                name: "Digital Kitchen Spoon Electronic Food Weighing Scale (500g/0.1g)"
+                name: "Digital Kitchen Spoon Electronic Food Weighing Scale (500g/0.1g)",
                 price: 399,
-                image: "https://images.meesho.com/images/products/556833475/s9rwh_512.avif?width=512",
+                image: "https://images.meesho.com/images/products/556833475/s9rwh_512.webp",
                 images: [
-                    "https://images.meesho.com/images/products/556833475/s9rwh_512.avif?width=512",
-                    "https://images.meesho.com/images/products/556833475/tnfis_512.avif?width=512",
-                    "https://images.meesho.com/images/products/556833475/cnysf_512.avif?width=512"
+                    "https://images.meesho.com/images/products/556833475/s9rwh_512.webp",
+                    "https://images.meesho.com/images/products/556833475/tnfis_512.webp",
+                    "https://images.meesho.com/images/products/556833475/cnysf_512.webp"
                 ],
-                description: "use for yor cooking",
-                category: "gadgets",
+                description: "Digital kitchen scale for accurate food weighing",
+                category: "kitchen",
                 brand: "local",
                 rating: 4.7,
                 reviews: 256,
+                specifications: {
+                    "Capacity": "500g",
+                    "Accuracy": "0.1g",
+                    "Power": "Battery",
+                    "Display": "LCD"
+                }
             },
             {
                 id: 4,
@@ -1479,11 +1494,18 @@
                     "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                     "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                 ],
-                description: "Modern LED desk lamp with adjustable brightness and color temperature. Perfect for studying or working.",
+                description: "Modern LED desk lamp with adjustable brightness and color temperature",
                 category: "Home & Office",
                 brand: "Lumina",
                 rating: 4.4,
                 reviews: 167,
+                specifications: {
+                    "Power": "10W LED",
+                    "Brightness Levels": "5",
+                    "Color Temperature": "3000K-6000K",
+                    "Adjustment": "360° rotation",
+                    "Power Source": "USB/AC"
+                }
             },
             {
                 id: 5,
@@ -1495,7 +1517,7 @@
                     "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                     "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                 ],
-                description: "High-capacity power bank with fast charging capability. Charge multiple devices simultaneously.",
+                description: "High-capacity power bank with fast charging capability",
                 category: "Electronics",
                 brand: "PowerMax",
                 rating: 4.6,
@@ -1504,9 +1526,7 @@
                     "Capacity": "20000mAh",
                     "Output Ports": "2 USB + 1 Type-C",
                     "Input": "18W",
-                    "Weight": "380g",
-                    "Dimensions": "150x75x25mm",
-                    "Warranty": "1 year"
+                    "Weight": "380g"
                 }
             },
             {
@@ -1519,7 +1539,7 @@
                     "https://images.unsplash.com/photo-1581952976147-5a2d15560349?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                     "https://images.unsplash.com/photo-1586816879360-004f5b0c51e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                 ],
-                description: "Ergonomic wireless mouse with silent buttons and long battery life. Perfect for office and home use.",
+                description: "Ergonomic wireless mouse with silent buttons",
                 category: "Computer Accessories",
                 brand: "ClickTech",
                 rating: 4.2,
@@ -1528,9 +1548,7 @@
                     "Connection": "Wireless 2.4GHz",
                     "DPI": "1600",
                     "Battery": "AA x 1 (12 months)",
-                    "Range": "10 meters",
-                    "Buttons": "3 + scroll wheel",
-                    "Warranty": "1 year"
+                    "Range": "10 meters"
                 }
             }
         ];
@@ -1691,7 +1709,13 @@
             document.getElementById('productId').value = product.id;
             document.getElementById('quantity').value = quantity;
             document.getElementById('orderModal').style.display = 'flex';
-            document.getElementById('orderForm').reset();
+            
+            // Reset form but keep product info
+            document.getElementById('customerName').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('notes').value = '';
         }
 
         // PAYMENT FUNCTIONS
@@ -1702,6 +1726,8 @@
             document.querySelectorAll('.payment-method').forEach(el => {
                 el.classList.remove('active');
             });
+            
+            // Add active class to clicked element
             event.currentTarget.classList.add('active');
             
             // Show appropriate payment details
@@ -1727,14 +1753,19 @@
             document.getElementById('qrCode').innerHTML = '';
             
             // Generate new QR code
-            new QRCode(document.getElementById('qrCode'), {
-                text: upiString,
-                width: 180,
-                height: 180,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
+            try {
+                new QRCode(document.getElementById('qrCode'), {
+                    text: upiString,
+                    width: 180,
+                    height: 180,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            } catch (error) {
+                console.error("QR Code generation error:", error);
+                document.getElementById('qrCode').innerHTML = '<p style="color: red;">QR Code Error</p>';
+            }
         }
 
         function copyUPIDetails() {
@@ -1749,7 +1780,14 @@
                     showToast("UPI details copied to clipboard!");
                 })
                 .catch(err => {
-                    showToast("Failed to copy UPI details");
+                    // Fallback for older browsers
+                    const textArea = document.createElement("textarea");
+                    textArea.value = upiDetails;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                    showToast("UPI details copied to clipboard!");
                 });
         }
 
@@ -1843,9 +1881,9 @@
             document.getElementById('upiIdValue').textContent = YOUR_UPI_ID;
             
             // Generate QR code
-            if (document.getElementById('qrCode').innerHTML) {
+            setTimeout(() => {
                 generateQRCode();
-            }
+            }, 100);
             
             // Show payment modal
             document.getElementById('paymentModal').style.display = 'flex';
@@ -1915,13 +1953,18 @@
             currentProductId = productId;
             const product = products.find(p => p.id === productId);
             
-            // ✅ PRODUCT TITLE AUTOMATICALLY FILL HOGYA
             document.getElementById('productName').value = product.name;
             document.getElementById('productPrice').value = product.price;
             document.getElementById('productId').value = product.id;
             document.getElementById('orderModal').style.display = 'flex';
-            document.getElementById('orderForm').reset();
+            
+            // Reset form but keep product info
+            document.getElementById('customerName').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('address').value = '';
             document.getElementById('quantity').value = 1;
+            document.getElementById('notes').value = '';
             
             // Focus on name field
             setTimeout(() => {
@@ -2131,6 +2174,7 @@
                     closeShareModal();
                 })
                 .catch(err => {
+                    // Fallback
                     document.execCommand('copy');
                     showToast("Product link copied to clipboard!");
                     closeShareModal();
@@ -2240,7 +2284,7 @@
             if (event.target == document.getElementById('paymentModal')) {
                 closePaymentModal();
             }
-        }
+        };
 
         // Close on Escape key
         document.addEventListener('keydown', function(event) {

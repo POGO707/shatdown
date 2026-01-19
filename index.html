@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHUTDOWN - Dropshipping Store</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff3f6c;
+            --secondary: #282c3f;
+            --light: #f5f5f6;
+            --dark: #3e4152;
+            --success: #26a541;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 22px;
+            color: var(--secondary);
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 70px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #ff3f6c 0%, #ff6b9d 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary);
+            font-size: 24px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-buy {
+            background: var(--primary);
+            color: white;
+            flex: 2;
+        }
+
+        .btn-buy:hover {
+            background: #e6004c;
+        }
+
+        .btn-share {
+            background: var(--light);
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .btn-share:hover {
+            background: #e0e0e0;
+        }
+
+        /* Product Page Styles */
+        .product-page {
+            display: none;
+            padding: 90px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .product-detail-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .product-detail-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 992px) {
+            .product-detail-row {
+                flex-direction: row;
+            }
+        }
+
+        .product-images {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f8f8f8;
+            margin-bottom: 20px;
+        }
+
+        .image-thumbnails {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary);
+        }
+
+        .product-details {
+            flex: 1;
+            padding: 30px;
+            border-left: 1px solid #eee;
+        }
+
+        .product-detail-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: #ffb300;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .product-price-large {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            margin-bottom: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .product-specs {
+            margin-bottom: 25px;
+        }
+
+        .spec-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            min-width: 120px;
+            color: var(--secondary);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .product-actions-large {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-add-to-cart {
+            background: var(--primary);
+            color: white;
+            flex: 2;
+            min-width: 200px;
+        }
+
+        .btn-buy-now {
+            background: var(--secondary);
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-wishlist {
+            background: var(--light);
+            color: var(--dark);
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .social-share {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .share-title {
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .whatsapp-share {
+            background: #25D366;
+        }
+
+        .facebook-share {
+            background: #1877F2;
+        }
+
+        .twitter-share {
+            background: #1DA1F2;
+        }
+
+        /* Share Modal */
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            animation: modalSlide 0.3s ease;
+        }
+
+        .share-modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .share-modal-body {
+            padding: 20px;
+        }
+
+        .share-link-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .share-link-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: #f9f9f9;
+        }
+
+        .copy-btn {
+            padding: 10px 20px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .share-option-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            animation: modalSlide 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .btn-submit {
+            background: var(--success);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #1f8a35;
+        }
+
+        /* Cart Modal */
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-total {
+            padding: 20px 0;
+            text-align: right;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--secondary);
+            border-top: 2px solid #eee;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        .contact-info {
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 3000;
+            animation: toastSlide 0.3s ease;
+        }
+
+        @keyframes toastSlide {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 25px;
+            }
+            
+            .nav-links a {
+                color: var(--dark);
+                text-decoration: none;
+                font-weight: 500;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .btn {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+            
+            .product-actions-large {
+                flex-direction: column;
+            }
+            
+            .product-detail-title {
+                font-size: 24px;
+            }
+            
+            .product-price-large {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showHomePage()">SHUT<span>DOWN</span></a>
+            
+            <nav class="nav-links">
+                <a href="#" onclick="showHomePage()">Home</a>
+                <a href="#products" onclick="showHomePage()">Products</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            
+            <div class="cart-icon" onclick="openCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="homePage">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Welcome to SHUTDOWN</h1>
+            <p>Premium Dropshipping Products at Best Prices</p>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section" id="products">
+            <h2 class="section-title">Our Products</h2>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be added by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Product Detail Page -->
+    <div class="product-page" id="productPage">
+        <button class="back-btn" onclick="showHomePage()">
+            <i class="fas fa-arrow-left"></i> Back to Products
+        </button>
+        
+        <div class="product-detail-container">
+            <div class="product-detail-row">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <img id="mainProductImage" src="" alt="Product" class="main-image">
+                    <div class="image-thumbnails" id="productThumbnails">
+                        <!-- Thumbnails will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Product Details -->
+                <div class="product-details">
+                    <h1 class="product-detail-title" id="productDetailTitle"></h1>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count" id="productRatingCount"></span>
+                    </div>
+                    
+                    <div class="product-price-large" id="productDetailPrice"></div>
+                    
+                    <div class="product-description" id="productDetailDescription"></div>
+                    
+                    <div class="product-specs" id="productSpecs">
+                        <!-- Specifications will be added here -->
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <span>Quantity:</span>
+                        <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                        <input type="number" id="productQuantity" class="quantity-input" value="1" min="1" max="10">
+                        <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                    </div>
+                    
+                    <div class="product-actions-large">
+                        <button class="btn btn-add-to-cart" onclick="addToCartFromDetail()">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        <button class="btn btn-buy-now" onclick="buyNowFromDetail()">
+                            <i class="fas fa-bolt"></i> Buy Now
+                        </button>
+                        <button class="btn btn-wishlist" onclick="addToWishlist()">
+                            <i class="fas fa-heart"></i> Wishlist
+                        </button>
+                    </div>
+                    
+                    <div class="social-share">
+                        <div class="share-title">Share this product:</div>
+                        <div class="share-buttons">
+                            <button class="share-btn whatsapp-share" onclick="shareProductOnWhatsApp()">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button class="share-btn facebook-share" onclick="shareProductOnFacebook()">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button class="share-btn twitter-share" onclick="shareProductOnTwitter()">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                            <button class="share-btn" style="background: var(--primary);" onclick="showShareModal()">
+                                <i class="fas fa-link"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h2>Share Product Link</h2>
+            </div>
+            <div class="share-modal-body">
+                <p>Copy the link below to share this product:</p>
+                
+                <div class="share-link-container">
+                    <input type="text" id="shareLinkInput" class="share-link-input" readonly>
+                    <button class="copy-btn" onclick="copyShareLink()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                
+                <div class="share-options">
+                    <button class="share-option-btn" style="background: #25D366;" onclick="shareViaWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                    </button>
+                    <button class="share-option-btn" style="background: #1877F2;" onclick="shareViaFacebook()">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="share-option-btn" style="background: #1DA1F2;" onclick="shareViaTwitter()">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button class="share-option-btn" style="background: var(--primary);" onclick="closeShareModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Place Your Order</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="productName">Product</label>
+                        <input type="text" id="productName" class="form-control" readonly>
+                        <input type="hidden" id="productPrice">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerName">Full Name *</label>
+                        <input type="text" id="customerName" class="form-control" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" class="form-control" required placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email (optional)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Full Shipping Address *</label>
+                        <textarea id="address" class="form-control" rows="3" required placeholder="House no, Street, City, State, Pincode"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" class="form-control" value="1" min="1" max="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes (Optional)</label>
+                        <textarea id="notes" class="form-control" rows="2" placeholder="Any special instructions..."></textarea>
+                    </div>
+                    
+                    <div class="spinner" id="loadingSpinner"></div>
+                    
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Order
+                    </button>
+                    
+                    <p style="font-size: 12px; color: #666; margin-top: 15px; text-align: center;">
+                        Order details will be sent automatically to our WhatsApp
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Shopping Cart</h2>
+                <button class="close-modal" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be added here -->
+                </div>
+                
+                <div class="cart-total">
+                    Total: ₹<span id="cartTotal">0</span>
+                </div>
+                
+                <button class="btn-submit" onclick="checkoutAll()">
+                    <i class="fas fa-shopping-bag"></i> Checkout All Items
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <h3>SHUTDOWN Dropshipping Store</h3>
+        <p>Direct WhatsApp Orders Accepted</p>
+        
+        <div class="contact-info">
+            <p><i class="fas fa-phone"></i> WhatsApp: +91 62892 04920</p>
+            <p><i class="fas fa-clock"></i> Order Processing: 24/7</p>
+        </div>
+        
+        <p style="margin-top: 20px; opacity: 0.8; font-size: 14px;">
+            &copy; 2023 SHUTDOWN. All orders sent directly to owner's WhatsApp.
+        </p>
+    </footer>
+
+    <script>
+        // Products Data
+        const products = [
+            {
+                id: 1,
+                name: "Wireless Bluetooth Headphones",
+                price: 1299,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ],
+                description: "Premium wireless Bluetooth headphones with noise cancellation technology. Enjoy crystal clear audio with 20 hours of battery life.",
+                category: "Electronics",
+                brand: "AudioPro",
+                rating: 4.5,
+                reviews: 128,
+                specifications: {
+                    "Battery Life": "20 hours",
+                    "Charging Time": "2 hours",
+                    "Wireless Range": "10 meters",
+                    "Connectivity": "Bluetooth 5.0",
+                    "Weight": "250g",
+                    "Warranty": "1 year"
+                }
+            },
+            {
+                id: 2,
+                name: "Smart Watch Fitness Tracker",
+                price: 1999,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1558126319-c9feecbf57ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ],
+                description: "Advanced smartwatch with fitness tracking features. Monitor your heart rate, sleep patterns, and daily activities.",
+                category: "Wearables",
+                brand: "FitTrack",
+                rating: 4.3,
+                reviews: 89,
+                specifications: {
+                    "Display": "1.3\" AMOLED",
+                    "Battery": "7 days",
+                    "Waterproof": "IP68",
+                    "Sensors": "Heart Rate, SpO2, GPS",
+                    "Compatibility": "Android & iOS",
+                    "Warranty": "2 years"
+                }
+            },
+            {
+                id: 3,
+                name: "Magnetic Phone Charger",
+                price: 499,
+                image: "https://images.unsplash.com/photo-1600003263720-95b45a4035d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1600003263720-95b45a4035d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1603383928978-2cbb5c3b63df?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ],
+                description: "Fast magnetic charging cable with strong magnetic connection. Compatible with most smartphones.",
+                category: "Accessories",
+                brand: "ChargeX",
+                rating: 4.7,
+                reviews: 256,
+                specifications: {
+                    "Length": "1.2 meters",
+                    "Charging Speed": "18W",
+                    "Compatibility": "All smartphones",
+                    "Connector": "USB-C/Micro USB",
+                    "Material": "Nylon braided",
+                    "Warranty": "6 months"
+                }
+            },
+            {
+                id: 4,
+                name: "LED Desk Lamp",
+                price: 899,
+                image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ],
+                description: "Modern LED desk lamp with adjustable brightness and color temperature. Perfect for studying or working.",
+                category: "Home & Office",
+                brand: "Lumina",
+                rating: 4.4,
+                reviews: 167,
+                specifications: {
+                    "Power": "10W LED",
+                    "Brightness Levels": "5",
+                    "Color Temperature": "3000K-6000K",
+                    "Adjustment": "360° rotation",
+                    "Power Source": "USB/AC",
+                    "Warranty": "1 year"
+                }
+            },
+            {
+                id: 5,
+                name: "Portable Power Bank",
+                price: 1499,
+                image: "https://images.unsplash.com/photo-1594736797933-d0d64d1fe48a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1594736797933-d0d64d1fe48a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ],
+                description: "High-capacity power bank with fast charging capability. Charge multiple devices simultaneously.",
+                category: "Electronics",
+                brand: "PowerMax",
+                rating: 4.6,
+                reviews: 342,
+                specifications: {
+                    "Capacity": "20000mAh",
+                    "Output Ports": "2 USB + 1 Type-C",
+                    "Input": "18W",
+                    "Weight": "380g",
+                    "Dimensions": "150x75x25mm",
+                    "Warranty": "1 year"
+                }
+            },
+            {
+                id: 6,
+                name: "Wireless Mouse",
+                price: 599,
+                image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                images: [
+                    "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1581952976147-5a2d15560349?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1586816879360-004f5b0c51e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ],
+                description: "Ergonomic wireless mouse with silent buttons and long battery life. Perfect for office and home use.",
+                category: "Computer Accessories",
+                brand: "ClickTech",
+                rating: 4.2,
+                reviews: 98,
+                specifications: {
+                    "Connection": "Wireless 2.4GHz",
+                    "DPI": "1600",
+                    "Battery": "AA x 1 (12 months)",
+                    "Range": "10 meters",
+                    "Buttons": "3 + scroll wheel",
+                    "Warranty": "1 year"
+                }
+            }
+        ];
+
+        // Global variables
+        let cart = [];
+        let currentProductId = null;
+        let viewingProductId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            loadCartFromStorage();
+            checkUrlForProduct();
+        });
+
+        // Show home page
+        function showHomePage() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('productPage').style.display = 'none';
+            window.scrollTo(0, 0);
+            history.pushState({}, '', window.location.pathname);
+        }
+
+        // Show product detail page
+        function showProductDetail(productId) {
+            viewingProductId = productId;
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('productPage').style.display = 'block';
+            
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // Set product details
+            document.getElementById('productDetailTitle').textContent = product.name;
+            document.getElementById('productDetailPrice').textContent = `₹${product.price}`;
+            document.getElementById('productDetailDescription').textContent = product.description;
+            document.getElementById('productRatingCount').textContent = `${product.rating}/5 (${product.reviews} reviews)`;
+            
+            // Set main image
+            document.getElementById('mainProductImage').src = product.image;
+            document.getElementById('mainProductImage').alt = product.name;
+            
+            // Create thumbnails
+            const thumbnailsContainer = document.getElementById('productThumbnails');
+            thumbnailsContainer.innerHTML = '';
+            
+            product.images.forEach((imgSrc, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = imgSrc;
+                thumbnail.alt = `${product.name} - View ${index + 1}`;
+                thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                thumbnail.onclick = () => {
+                    document.getElementById('mainProductImage').src = imgSrc;
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    thumbnail.classList.add('active');
+                };
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+            
+            // Create specifications
+            const specsContainer = document.getElementById('productSpecs');
+            specsContainer.innerHTML = '';
+            
+            Object.entries(product.specifications).forEach(([key, value]) => {
+                const specItem = document.createElement('div');
+                specItem.className = 'spec-item';
+                specItem.innerHTML = `
+                    <span class="spec-label">${key}:</span>
+                    <span class="spec-value">${value}</span>
+                `;
+                specsContainer.appendChild(specItem);
+            });
+            
+            // Reset quantity
+            document.getElementById('productQuantity').value = 1;
+            
+            // Update URL
+            history.pushState({}, '', `?product=${productId}`);
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Render products on home page
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.onclick = () => showProductDetail(product.id);
+                
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p style="color: #666; font-size: 14px; margin-bottom: 10px;">${product.description.substring(0, 80)}...</p>
+                        <div class="product-price">₹${product.price}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-buy" onclick="event.stopPropagation(); openOrderModal(${product.id})">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                            <button class="btn btn-share" onclick="event.stopPropagation(); openShareForProduct(${product.id})">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Quantity functions
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('productQuantity');
+            if (quantityInput.value < 10) {
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+            }
+        }
+
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('productQuantity');
+            if (quantityInput.value > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+
+        // Add to cart from product page
+        function addToCartFromDetail() {
+            if (!viewingProductId) return;
+            
+            const product = products.find(p => p.id === viewingProductId);
+            const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
+            
+            const existingItem = cart.find(item => item.id === viewingProductId);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: quantity
+                });
+            }
+            
+            updateCartCount();
+            saveCartToStorage();
+            showToast(`Added ${quantity} × ${product.name} to cart!`);
+        }
+
+        // Buy now from product page
+        function buyNowFromDetail() {
+            if (!viewingProductId) return;
+            
+            const product = products.find(p => p.id === viewingProductId);
+            const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
+            
+            addToCartFromDetail();
+            
+            currentProductId = viewingProductId;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('quantity').value = quantity;
+            document.getElementById('orderModal').style.display = 'flex';
+            document.getElementById('orderForm').reset();
+        }
+
+        // Add to wishlist
+        function addToWishlist() {
+            if (!viewingProductId) return;
+            const product = products.find(p => p.id === viewingProductId);
+            showToast(`Added ${product.name} to wishlist!`);
+        }
+
+        // SHARE MODAL FUNCTIONS
+        function showShareModal() {
+            if (!viewingProductId) return;
+            
+            const product = products.find(p => p.id === viewingProductId);
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            
+            document.getElementById('shareLinkInput').value = shareLink;
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+
+        function copyShareLink() {
+            const shareLinkInput = document.getElementById('shareLinkInput');
+            shareLinkInput.select();
+            shareLinkInput.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(shareLinkInput.value)
+                .then(() => {
+                    showToast("Product link copied to clipboard!");
+                    closeShareModal();
+                })
+                .catch(err => {
+                    // Fallback for old browsers
+                    document.execCommand('copy');
+                    showToast("Product link copied to clipboard!");
+                    closeShareModal();
+                });
+        }
+
+        // Share from modal buttons
+        function shareViaWhatsApp() {
+            const shareLink = document.getElementById('shareLinkInput').value;
+            const product = products.find(p => p.id === viewingProductId);
+            const message = `Check out "${product.name}" for ₹${product.price} at SHUTDOWN Store! ${shareLink}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function shareViaFacebook() {
+            const shareLink = document.getElementById('shareLinkInput').value;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        function shareViaTwitter() {
+            const shareLink = document.getElementById('shareLinkInput').value;
+            const product = products.find(p => p.id === viewingProductId);
+            const message = `Check out "${product.name}" at SHUTDOWN Store!`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        // Direct share functions (from product page buttons)
+        function shareProductOnWhatsApp() {
+            if (!viewingProductId) return;
+            const product = products.find(p => p.id === viewingProductId);
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            const message = `Check out "${product.name}" for ₹${product.price} at SHUTDOWN Store! ${shareLink}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function shareProductOnFacebook() {
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        function shareProductOnTwitter() {
+            if (!viewingProductId) return;
+            const product = products.find(p => p.id === viewingProductId);
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            const message = `Check out "${product.name}" at SHUTDOWN Store!`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        // Share from home page
+        function openShareForProduct(productId) {
+            event.stopPropagation();
+            
+            const product = products.find(p => p.id === productId);
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${productId}`;
+            
+            // Show share modal
+            document.getElementById('shareLinkInput').value = shareLink;
+            document.getElementById('shareModal').style.display = 'flex';
+            
+            // Update viewing product ID for modal functions
+            viewingProductId = productId;
+        }
+
+        // Original functions
+        function openOrderModal(productId) {
+            currentProductId = productId;
+            const product = products.find(p => p.id === productId);
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('orderModal').style.display = 'flex';
+            document.getElementById('orderForm').reset();
+            document.getElementById('quantity').value = 1;
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+            currentProductId = null;
+        }
+
+        function openCart() {
+            renderCartItems();
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            saveCartToStorage();
+            showToast(`${product.name} added to cart!`);
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function renderCartItems() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">Your cart is empty</p>';
+                cartTotal.textContent = '0';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">₹${item.price} × ${item.quantity} = ₹${itemTotal}</div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: #ff3f6c; cursor: pointer; padding: 5px;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = total;
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            renderCartItems();
+            updateCartCount();
+            saveCartToStorage();
+        }
+
+        // Submit order form
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('loadingSpinner');
+            
+            const productName = document.getElementById('productName').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const customerName = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const quantity = document.getElementById('quantity').value || 1;
+            const notes = document.getElementById('notes').value.trim();
+            
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showToast("Please enter a valid 10-digit phone number");
+                return;
+            }
+            
+            if (address.length < 10) {
+                showToast("Please enter complete shipping address");
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            spinner.style.display = 'block';
+            
+            const whatsappNumber = "6289204920";
+            const totalAmount = productPrice * quantity;
+            
+            const message = `*🛒 NEW ORDER - SHUTDOWN STORE*%0A%0A` +
+                          `*Product:* ${productName}%0A` +
+                          `*Price:* ₹${productPrice}%0A` +
+                          `*Quantity:* ${quantity}%0A` +
+                          `*Total:* ₹${totalAmount}%0A%0A` +
+                          `*Customer Details:*%0A` +
+                          `👤 Name: ${customerName}%0A` +
+                          `📱 Phone: ${phone}%0A` +
+                          `📧 Email: ${email || 'Not provided'}%0A` +
+                          `📍 Address: ${address}%0A` +
+                          `📝 Notes: ${notes || 'None'}%0A%0A` +
+                          `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A` +
+                          `*Order ID:* SHUT${Date.now().toString().slice(-6)}`;
+            
+            try {
+                await sendToWhatsApp(whatsappNumber, message);
+                
+                showToast("✅ Order sent successfully!");
+                
+                if (currentProductId) {
+                    addToCart(currentProductId);
+                }
+                
+                setTimeout(() => {
+                    closeModal();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Order';
+                    spinner.style.display = 'none';
+                }, 1500);
+                
+            } catch (error) {
+                showToast("❌ Error sending order. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Order';
+                spinner.style.display = 'none';
+            }
+        });
+
+        // Checkout all items
+        async function checkoutAll() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+            
+            const customerName = prompt("Enter your full name:");
+            if (!customerName) return;
+            
+            const phone = prompt("Enter your 10-digit phone number:");
+            if (!phone || phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showToast("Invalid phone number");
+                return;
+            }
+            
+            const address = prompt("Enter your shipping address (house no, street, city, pincode):");
+            if (!address || address.length < 10) {
+                showToast("Address is too short");
+                return;
+            }
+            
+            const email = prompt("Enter your email (optional):") || "";
+            
+            let orderSummary = `*🛍️ MULTIPLE ITEMS ORDER - SHUTDOWN STORE*%0A%0A`;
+            let totalAmount = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalAmount += itemTotal;
+                orderSummary += `${index + 1}. ${item.name}%0A`;
+                orderSummary += `   Price: ₹${item.price} × ${item.quantity} = ₹${itemTotal}%0A%0A`;
+            });
+            
+            orderSummary += `*Total Amount: ₹${totalAmount}*%0A%0A`;
+            orderSummary += `*Customer Details:*%0A`;
+            orderSummary += `👤 Name: ${customerName}%0A`;
+            orderSummary += `📱 Phone: ${phone}%0A`;
+            orderSummary += `📧 Email: ${email || 'Not provided'}%0A`;
+            orderSummary += `📍 Address: ${address}%0A%0A`;
+            orderSummary += `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A`;
+            orderSummary += `*Order ID:* SHUT${Date.now().toString().slice(-6)}`;
+            
+            try {
+                await sendToWhatsApp("6289204920", orderSummary);
+                
+                showToast("✅ Cart order sent successfully!");
+                
+                cart = [];
+                updateCartCount();
+                saveCartToStorage();
+                closeCart();
+                
+            } catch (error) {
+                showToast("❌ Error sending order");
+            }
+        }
+
+        // Send to WhatsApp
+        async function sendToWhatsApp(number, message) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            console.log("WhatsApp Message:", message);
+            console.log("Would be sent to:", number);
+            return true;
+        }
+
+        // Show toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Save cart to localStorage
+        function saveCartToStorage() {
+            localStorage.setItem('shutdownCart', JSON.stringify(cart));
+        }
+
+        // Load cart from localStorage
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('shutdownCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCount();
+            }
+        }
+
+        // Check URL for product parameter
+        function checkUrlForProduct() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('product');
+            if (productId) {
+                showProductDetail(parseInt(productId));
+            }
+        }
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('orderModal')) {
+                closeModal();
+            }
+            if (event.target == document.getElementById('cartModal')) {
+                closeCart();
+            }
+            if (event.target == document.getElementById('shareModal')) {
+                closeShareModal();
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeCart();
+                closeShareModal();
+            }
+        });
+
+        // Handle browser back/forward buttons
+        window.onpopstate = function() {
+            checkUrlForProduct();
+        };
+    </script>
+</body>
+</html>

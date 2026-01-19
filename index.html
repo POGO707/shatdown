@@ -11,6 +11,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -24,6 +27,10 @@
             --light: #f5f5f6;
             --dark: #3e4152;
             --success: #26a541;
+            --warning: #ff9500;
+            --google-pay: #4285f4;
+            --phonepe: #5f259f;
+            --paytm: #00baf2;
         }
 
         body {
@@ -429,7 +436,7 @@
             color: white;
             font-size: 18px;
             cursor: pointer;
-            text-decoration: none;
+            border: none;
         }
 
         .whatsapp-share {
@@ -442,6 +449,256 @@
 
         .twitter-share {
             background: #1DA1F2;
+        }
+
+        /* Payment Modal */
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            animation: modalSlide 0.3s ease;
+        }
+
+        .payment-header {
+            background: var(--success);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payment-header h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .payment-body {
+            padding: 25px;
+        }
+
+        .payment-amount {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .amount-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .amount-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .payment-methods {
+            margin-bottom: 25px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            background: #fff5f7;
+        }
+
+        .payment-method.active {
+            border-color: var(--success);
+            background: #f0fff4;
+        }
+
+        .payment-method-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .upi-icon {
+            color: #00a8ff;
+        }
+
+        .cod-icon {
+            color: var(--warning);
+        }
+
+        .payment-method-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .payment-method-info p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .qr-code-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upi-details {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .upi-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .upi-label {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .upi-value {
+            font-family: monospace;
+            color: var(--success);
+        }
+
+        .copy-upi-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .payment-instructions {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .payment-instructions ol {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .payment-instructions li {
+            margin-bottom: 8px;
+        }
+
+        .upi-apps {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .upi-app-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .upi-app-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .upi-app-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .google-pay {
+            color: var(--google-pay);
+        }
+
+        .phonepe {
+            color: var(--phonepe);
+        }
+
+        .paytm {
+            color: var(--paytm);
+        }
+
+        .upi-app-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .confirm-payment {
+            width: 100%;
+            padding: 15px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
         }
 
         /* Share Modal */
@@ -757,6 +1014,20 @@
             .product-price-large {
                 font-size: 28px;
             }
+            
+            .qr-code {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .upi-apps {
+                flex-wrap: wrap;
+            }
+            
+            .upi-app-btn {
+                min-width: 80px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -877,36 +1148,130 @@
         </div>
     </div>
 
-    <!-- Share Modal -->
-    <div class="share-modal" id="shareModal">
-        <div class="share-modal-content">
-            <div class="share-modal-header">
-                <h2>Share Product Link</h2>
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-modal-content">
+            <div class="payment-header">
+                <h2>Complete Your Payment</h2>
+                <p>Choose your preferred payment method</p>
             </div>
-            <div class="share-modal-body">
-                <p>Copy the link below to share this product:</p>
-                
-                <div class="share-link-container">
-                    <input type="text" id="shareLinkInput" class="share-link-input" readonly>
-                    <button class="copy-btn" onclick="copyShareLink()">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
+            <div class="payment-body">
+                <div class="payment-amount">
+                    <div class="amount-label">Total Amount to Pay</div>
+                    <div class="amount-value" id="paymentAmount">₹0</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;" id="productTitleInPayment">
+                        <!-- Product title will appear here -->
+                    </div>
                 </div>
                 
-                <div class="share-options">
-                    <button class="share-option-btn" style="background: #25D366;" onclick="shareViaWhatsApp()">
-                        <i class="fab fa-whatsapp"></i>
-                    </button>
-                    <button class="share-option-btn" style="background: #1877F2;" onclick="shareViaFacebook()">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
-                    <button class="share-option-btn" style="background: #1DA1F2;" onclick="shareViaTwitter()">
-                        <i class="fab fa-twitter"></i>
-                    </button>
-                    <button class="share-option-btn" style="background: var(--primary);" onclick="closeShareModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
+                <div class="payment-methods">
+                    <div class="payment-method active" onclick="selectPaymentMethod('upi')">
+                        <div class="payment-method-icon upi-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="payment-method-info">
+                            <h4>UPI / QR Code Payment</h4>
+                            <p>Pay instantly via UPI apps (Google Pay, PhonePe, Paytm)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-method" onclick="selectPaymentMethod('cod')">
+                        <div class="payment-method-icon cod-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="payment-method-info">
+                            <h4>Cash on Delivery (COD)</h4>
+                            <p>Pay when you receive your order</p>
+                        </div>
+                    </div>
                 </div>
+                
+                <!-- UPI Payment Details -->
+                <div class="payment-details" id="upiPaymentDetails">
+                    <div class="qr-code-container">
+                        <div class="qr-code" id="qrCode"></div>
+                        <p>Scan QR Code to Pay</p>
+                    </div>
+                    
+                    <div class="upi-details">
+                        <div class="upi-info">
+                            <span class="upi-label">UPI ID:</span>
+                            <span class="upi-value" id="upiIdValue">hmoinuddin84@oksbi</span>
+                        </div>
+                        <div class="upi-info">
+                            <span class="upi-label">Amount:</span>
+                            <span class="upi-value" id="upiAmount">₹0</span>
+                        </div>
+                        <div class="upi-info">
+                            <span class="upi-label">Order ID:</span>
+                            <span class="upi-value" id="upiOrderId">SHUT000001</span>
+                        </div>
+                        <button class="copy-upi-btn" onclick="copyUPIDetails()">
+                            <i class="fas fa-copy"></i> Copy UPI Details
+                        </button>
+                    </div>
+                    
+                    <div class="upi-apps">
+                        <div class="upi-app-btn" onclick="openGooglePay()">
+                            <div class="upi-app-icon google-pay">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div class="upi-app-name">Google Pay</div>
+                        </div>
+                        
+                        <div class="upi-app-btn" onclick="openPhonePe()">
+                            <div class="upi-app-icon phonepe">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="upi-app-name">PhonePe</div>
+                        </div>
+                        
+                        <div class="upi-app-btn" onclick="openPaytm()">
+                            <div class="upi-app-icon paytm">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="upi-app-name">Paytm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-instructions">
+                        <h4>How to Pay:</h4>
+                        <ol>
+                            <li><strong>Option 1:</strong> Scan QR Code with any UPI app</li>
+                            <li><strong>Option 2:</strong> Click on your UPI app button above</li>
+                            <li><strong>Option 3:</strong> Open UPI app manually and pay to: <strong>hmoinuddin84@oksbi</strong></li>
+                            <li>Verify amount and confirm payment</li>
+                            <li>Take screenshot of payment confirmation</li>
+                        </ol>
+                        <p style="color: var(--warning); font-weight: 600; margin-top: 10px;">
+                            ⚠️ Please keep payment screenshot for reference
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- COD Payment Details -->
+                <div class="payment-details" id="codPaymentDetails" style="display: none;">
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success); margin-bottom: 20px;"></i>
+                        <h3 style="margin-bottom: 15px;">Cash on Delivery Selected</h3>
+                        <p style="color: #666; margin-bottom: 20px;">
+                            You can pay cash when the delivery executive arrives with your order.
+                        </p>
+                        <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                            <p><strong>Delivery Charges:</strong> ₹50 (if applicable)</p>
+                            <p><strong>Total Payable:</strong> <span id="codAmount">₹0</span></p>
+                            <p><strong>Product:</strong> <span id="codProductTitle"></span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="confirm-payment" onclick="confirmPayment()">
+                    <i class="fas fa-check-circle"></i> Confirm Order
+                </button>
+                
+                <p style="text-align: center; font-size: 12px; color: #666; margin-top: 15px;">
+                    Your order will be processed after payment confirmation
+                </p>
             </div>
         </div>
     </div>
@@ -924,6 +1289,7 @@
                         <label for="productName">Product</label>
                         <input type="text" id="productName" class="form-control" readonly>
                         <input type="hidden" id="productPrice">
+                        <input type="hidden" id="productId">
                     </div>
                     
                     <div class="form-group">
@@ -959,13 +1325,47 @@
                     <div class="spinner" id="loadingSpinner"></div>
                     
                     <button type="submit" class="btn-submit" id="submitBtn">
-                        <i class="fas fa-paper-plane"></i> Submit Order
+                        <i class="fas fa-arrow-right"></i> Proceed to Payment
                     </button>
                     
                     <p style="font-size: 12px; color: #666; margin-top: 15px; text-align: center;">
-                        Order details will be sent automatically to our WhatsApp
+                        Choose payment method on next screen
                     </p>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h2>Share Product Link</h2>
+            </div>
+            <div class="share-modal-body">
+                <p>Copy the link below to share this product:</p>
+                
+                <div class="share-link-container">
+                    <input type="text" id="shareLinkInput" class="share-link-input" readonly>
+                    <button class="copy-btn" onclick="copyShareLink()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                
+                <div class="share-options">
+                    <button class="share-option-btn" style="background: #25D366;" onclick="shareViaWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                    </button>
+                    <button class="share-option-btn" style="background: #1877F2;" onclick="shareViaFacebook()">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="share-option-btn" style="background: #1DA1F2;" onclick="shareViaTwitter()">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button class="share-option-btn" style="background: var(--primary);" onclick="closeShareModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -986,8 +1386,8 @@
                     Total: ₹<span id="cartTotal">0</span>
                 </div>
                 
-                <button class="btn-submit" onclick="checkoutAll()">
-                    <i class="fas fa-shopping-bag"></i> Checkout All Items
+                <button class="btn-submit" onclick="proceedToCheckout()">
+                    <i class="fas fa-shopping-bag"></i> Proceed to Checkout
                 </button>
             </div>
         </div>
@@ -1003,15 +1403,19 @@
         
         <div class="contact-info">
             <p><i class="fas fa-phone"></i> WhatsApp: +91 62892 04920</p>
-            <p><i class="fas fa-clock"></i> Order Processing: 24/7</p>
+            <p><i class="fas fa-qrcode"></i> UPI ID: hmoinuddin84@oksbi</p>
+            <p><i class="fas fa-credit-card"></i> Accepting: UPI, COD</p>
         </div>
         
         <p style="margin-top: 20px; opacity: 0.8; font-size: 14px;">
-            &copy; 2023 SHUTDOWN. All orders sent directly to owner's WhatsApp.
+            &copy; 2023 SHUTDOWN. Secure payments via UPI QR Code.
         </p>
     </footer>
 
     <script>
+        // Your UPI ID - यहाँ अपना UPI ID डालें
+        const YOUR_UPI_ID = "hmoinuddin84@oksbi";
+        
         // Products Data
         const products = [
             {
@@ -1164,6 +1568,8 @@
         let cart = [];
         let currentProductId = null;
         let viewingProductId = null;
+        let selectedPaymentMethod = 'upi';
+        let currentOrderDetails = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -1189,17 +1595,14 @@
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
-            // Set product details
             document.getElementById('productDetailTitle').textContent = product.name;
             document.getElementById('productDetailPrice').textContent = `₹${product.price}`;
             document.getElementById('productDetailDescription').textContent = product.description;
             document.getElementById('productRatingCount').textContent = `${product.rating}/5 (${product.reviews} reviews)`;
             
-            // Set main image
             document.getElementById('mainProductImage').src = product.image;
             document.getElementById('mainProductImage').alt = product.name;
             
-            // Create thumbnails
             const thumbnailsContainer = document.getElementById('productThumbnails');
             thumbnailsContainer.innerHTML = '';
             
@@ -1216,7 +1619,6 @@
                 thumbnailsContainer.appendChild(thumbnail);
             });
             
-            // Create specifications
             const specsContainer = document.getElementById('productSpecs');
             specsContainer.innerHTML = '';
             
@@ -1230,10 +1632,8 @@
                 specsContainer.appendChild(specItem);
             });
             
-            // Reset quantity
             document.getElementById('productQuantity').value = 1;
             
-            // Update URL
             history.pushState({}, '', `?product=${productId}`);
             
             window.scrollTo(0, 0);
@@ -1314,122 +1714,248 @@
             const product = products.find(p => p.id === viewingProductId);
             const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
             
-            addToCartFromDetail();
-            
             currentProductId = viewingProductId;
             document.getElementById('productName').value = product.name;
             document.getElementById('productPrice').value = product.price;
+            document.getElementById('productId').value = product.id;
             document.getElementById('quantity').value = quantity;
             document.getElementById('orderModal').style.display = 'flex';
             document.getElementById('orderForm').reset();
         }
 
-        // Add to wishlist
-        function addToWishlist() {
-            if (!viewingProductId) return;
-            const product = products.find(p => p.id === viewingProductId);
-            showToast(`Added ${product.name} to wishlist!`);
+        // PAYMENT FUNCTIONS
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Show appropriate payment details
+            if (method === 'upi') {
+                document.getElementById('upiPaymentDetails').style.display = 'block';
+                document.getElementById('codPaymentDetails').style.display = 'none';
+                generateQRCode();
+            } else {
+                document.getElementById('upiPaymentDetails').style.display = 'none';
+                document.getElementById('codPaymentDetails').style.display = 'block';
+            }
         }
 
-        // SHARE MODAL FUNCTIONS
-        function showShareModal() {
-            if (!viewingProductId) return;
+        function generateQRCode() {
+            const paymentAmount = document.getElementById('paymentAmount').textContent;
+            const orderId = document.getElementById('upiOrderId').textContent;
+            const amount = paymentAmount.replace('₹', '');
             
-            const product = products.find(p => p.id === viewingProductId);
-            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            // Create UPI payment string
+            const upiString = `upi://pay?pa=${YOUR_UPI_ID}&pn=SHUTDOWN Store&am=${amount}&cu=INR&tn=Order ${orderId}`;
             
-            document.getElementById('shareLinkInput').value = shareLink;
-            document.getElementById('shareModal').style.display = 'flex';
+            // Clear previous QR code
+            document.getElementById('qrCode').innerHTML = '';
+            
+            // Generate new QR code
+            new QRCode(document.getElementById('qrCode'), {
+                text: upiString,
+                width: 180,
+                height: 180,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
         }
 
-        function closeShareModal() {
-            document.getElementById('shareModal').style.display = 'none';
-        }
-
-        function copyShareLink() {
-            const shareLinkInput = document.getElementById('shareLinkInput');
-            shareLinkInput.select();
-            shareLinkInput.setSelectionRange(0, 99999);
+        function copyUPIDetails() {
+            const upiId = document.getElementById('upiIdValue').textContent;
+            const amount = document.getElementById('upiAmount').textContent;
+            const orderId = document.getElementById('upiOrderId').textContent;
             
-            navigator.clipboard.writeText(shareLinkInput.value)
+            const upiDetails = `UPI ID: ${upiId}\nAmount: ${amount}\nOrder ID: ${orderId}\n\nPlease pay using any UPI app.`;
+            
+            navigator.clipboard.writeText(upiDetails)
                 .then(() => {
-                    showToast("Product link copied to clipboard!");
-                    closeShareModal();
+                    showToast("UPI details copied to clipboard!");
                 })
                 .catch(err => {
-                    // Fallback for old browsers
-                    document.execCommand('copy');
-                    showToast("Product link copied to clipboard!");
-                    closeShareModal();
+                    showToast("Failed to copy UPI details");
                 });
         }
 
-        // Share from modal buttons
-        function shareViaWhatsApp() {
-            const shareLink = document.getElementById('shareLinkInput').value;
-            const product = products.find(p => p.id === viewingProductId);
-            const message = `Check out "${product.name}" for ₹${product.price} at SHUTDOWN Store! ${shareLink}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        // Open UPI Apps
+        function openGooglePay() {
+            const amount = document.getElementById('upiAmount').textContent.replace('₹', '');
+            const googlePayUrl = `https://gpay.app.goo.gl/6r7e1?pa=${YOUR_UPI_ID}&pn=SHUTDOWN Store&am=${amount}&cu=INR`;
+            window.open(googlePayUrl, '_blank');
         }
 
-        function shareViaFacebook() {
-            const shareLink = document.getElementById('shareLinkInput').value;
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+        function openPhonePe() {
+            const amount = document.getElementById('upiAmount').textContent.replace('₹', '');
+            const phonePeUrl = `phonepe://pay?pa=${YOUR_UPI_ID}&pn=SHUTDOWN Store&am=${amount}&cu=INR`;
+            window.open(phonePeUrl, '_blank');
         }
 
-        function shareViaTwitter() {
-            const shareLink = document.getElementById('shareLinkInput').value;
-            const product = products.find(p => p.id === viewingProductId);
-            const message = `Check out "${product.name}" at SHUTDOWN Store!`;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(shareLink)}`, '_blank');
+        function openPaytm() {
+            const amount = document.getElementById('upiAmount').textContent.replace('₹', '');
+            const paytmUrl = `paytmmp://pay?pa=${YOUR_UPI_ID}&pn=SHUTDOWN Store&am=${amount}&cu=INR`;
+            window.open(paytmUrl, '_blank');
         }
 
-        // Direct share functions (from product page buttons)
-        function shareProductOnWhatsApp() {
-            if (!viewingProductId) return;
-            const product = products.find(p => p.id === viewingProductId);
-            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
-            const message = `Check out "${product.name}" for ₹${product.price} at SHUTDOWN Store! ${shareLink}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function shareProductOnFacebook() {
-            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
-        }
-
-        function shareProductOnTwitter() {
-            if (!viewingProductId) return;
-            const product = products.find(p => p.id === viewingProductId);
-            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
-            const message = `Check out "${product.name}" at SHUTDOWN Store!`;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(shareLink)}`, '_blank');
-        }
-
-        // Share from home page
-        function openShareForProduct(productId) {
-            event.stopPropagation();
+        function confirmPayment() {
+            const paymentAmount = document.getElementById('paymentAmount').textContent;
             
-            const product = products.find(p => p.id === productId);
-            const shareLink = `${window.location.origin}${window.location.pathname}?product=${productId}`;
+            if (selectedPaymentMethod === 'upi') {
+                showToast(`Please complete payment of ${paymentAmount} via UPI`);
+                
+                // After 3 seconds, send order to WhatsApp
+                setTimeout(() => {
+                    sendOrderToWhatsApp();
+                    showToast("Order confirmed! Details sent to WhatsApp.");
+                    closePaymentModal();
+                    
+                    // Clear cart after successful order
+                    cart = [];
+                    updateCartCount();
+                    saveCartToStorage();
+                    
+                    // Show success message
+                    setTimeout(() => {
+                        showToast("Thank you for your order! We'll contact you soon.");
+                    }, 1000);
+                }, 3000);
+                
+            } else {
+                // COD order
+                sendOrderToWhatsApp();
+                showToast("COD order confirmed! Details sent to WhatsApp.");
+                closePaymentModal();
+                
+                // Clear cart
+                cart = [];
+                updateCartCount();
+                saveCartToStorage();
+                
+                setTimeout(() => {
+                    showToast("Thank you for your order! Delivery executive will contact you.");
+                }, 1000);
+            }
+        }
+
+        function openPaymentModal(orderDetails, productTitle = '') {
+            currentOrderDetails = orderDetails;
             
-            // Show share modal
-            document.getElementById('shareLinkInput').value = shareLink;
-            document.getElementById('shareModal').style.display = 'flex';
+            // Calculate total amount
+            let totalAmount = 0;
+            if (orderDetails.productId) {
+                // Single product order
+                const product = products.find(p => p.id === orderDetails.productId);
+                totalAmount = product.price * orderDetails.quantity;
+                productTitle = product.name; // Set product title
+            } else {
+                // Cart order
+                totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                productTitle = cart.length + ' items in cart'; // Multiple items
+            }
             
-            // Update viewing product ID for modal functions
-            viewingProductId = productId;
+            // Display amount and product title
+            document.getElementById('paymentAmount').textContent = `₹${totalAmount}`;
+            document.getElementById('upiAmount').textContent = `₹${totalAmount}`;
+            document.getElementById('codAmount').textContent = `₹${totalAmount}`;
+            document.getElementById('productTitleInPayment').textContent = productTitle;
+            document.getElementById('codProductTitle').textContent = productTitle;
+            
+            // Generate order ID
+            const orderId = 'SHUT' + Date.now().toString().slice(-6);
+            document.getElementById('upiOrderId').textContent = orderId;
+            
+            // Set UPI ID
+            document.getElementById('upiIdValue').textContent = YOUR_UPI_ID;
+            
+            // Generate QR code
+            if (document.getElementById('qrCode').innerHTML) {
+                generateQRCode();
+            }
+            
+            // Show payment modal
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+            currentOrderDetails = null;
+        }
+
+        function sendOrderToWhatsApp() {
+            if (!currentOrderDetails) return;
+            
+            const whatsappNumber = "6289204920";
+            let message = '';
+            
+            if (currentOrderDetails.productId) {
+                // Single product order
+                const product = products.find(p => p.id === currentOrderDetails.productId);
+                const totalAmount = product.price * currentOrderDetails.quantity;
+                
+                message = `*💰 PAYMENT CONFIRMED - SHUTDOWN STORE*%0A%0A` +
+                         `*Payment Method:* ${selectedPaymentMethod === 'upi' ? 'UPI QR Code' : 'Cash on Delivery'}%0A` +
+                         `*Product:* ${product.name}%0A` +
+                         `*Price:* ₹${product.price}%0A` +
+                         `*Quantity:* ${currentOrderDetails.quantity}%0A` +
+                         `*Total Paid:* ₹${totalAmount}%0A%0A` +
+                         `*Customer Details:*%0A` +
+                         `👤 Name: ${currentOrderDetails.customerName}%0A` +
+                         `📱 Phone: ${currentOrderDetails.phone}%0A` +
+                         `📧 Email: ${currentOrderDetails.email || 'Not provided'}%0A` +
+                         `📍 Address: ${currentOrderDetails.address}%0A` +
+                         `📝 Notes: ${currentOrderDetails.notes || 'None'}%0A%0A` +
+                         `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A` +
+                         `*Order ID:* SHUT${Date.now().toString().slice(-6)}`;
+            } else {
+                // Cart order
+                let orderSummary = '';
+                let totalAmount = 0;
+                
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.quantity;
+                    totalAmount += itemTotal;
+                    orderSummary += `${index + 1}. ${item.name} (₹${item.price} × ${item.quantity}) = ₹${itemTotal}%0A`;
+                });
+                
+                message = `*💰 PAYMENT CONFIRMED - SHUTDOWN STORE*%0A%0A` +
+                         `*Payment Method:* ${selectedPaymentMethod === 'upi' ? 'UPI QR Code' : 'Cash on Delivery'}%0A` +
+                         `*Order Summary:*%0A${orderSummary}%0A` +
+                         `*Total Paid:* ₹${totalAmount}%0A%0A` +
+                         `*Customer Details:*%0A` +
+                         `👤 Name: ${currentOrderDetails.customerName}%0A` +
+                         `📱 Phone: ${currentOrderDetails.phone}%0A` +
+                         `📧 Email: ${currentOrderDetails.email || 'Not provided'}%0A` +
+                         `📍 Address: ${currentOrderDetails.address}%0A` +
+                         `📝 Notes: ${currentOrderDetails.notes || 'None'}%0A%0A` +
+                         `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A` +
+                         `*Order ID:* SHUT${Date.now().toString().slice(-6)}`;
+            }
+            
+            // Open WhatsApp with message
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
         }
 
         // Original functions
         function openOrderModal(productId) {
             currentProductId = productId;
             const product = products.find(p => p.id === productId);
+            
+            // ✅ PRODUCT TITLE AUTOMATICALLY FILL HOGYA
             document.getElementById('productName').value = product.name;
             document.getElementById('productPrice').value = product.price;
+            document.getElementById('productId').value = product.id;
             document.getElementById('orderModal').style.display = 'flex';
             document.getElementById('orderForm').reset();
             document.getElementById('quantity').value = 1;
+            
+            // Focus on name field
+            setTimeout(() => {
+                document.getElementById('customerName').focus();
+            }, 300);
         }
 
         function closeModal() {
@@ -1444,6 +1970,52 @@
 
         function closeCart() {
             document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+            
+            // Ask for customer details
+            const customerName = prompt("Enter your full name:");
+            if (!customerName) return;
+            
+            const phone = prompt("Enter your 10-digit phone number:");
+            if (!phone || phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showToast("Invalid phone number");
+                return;
+            }
+            
+            const address = prompt("Enter your shipping address:");
+            if (!address || address.length < 10) {
+                showToast("Address is too short");
+                return;
+            }
+            
+            const email = prompt("Enter your email (optional):") || "";
+            const notes = prompt("Any special instructions (optional):") || "";
+            
+            currentOrderDetails = {
+                customerName,
+                phone,
+                email,
+                address,
+                notes
+            };
+            
+            closeCart();
+            
+            // Get product titles for cart
+            let productTitle = '';
+            if (cart.length === 1) {
+                productTitle = cart[0].name;
+            } else {
+                productTitle = `${cart.length} items in cart`;
+            }
+            
+            openPaymentModal(currentOrderDetails, productTitle);
         }
 
         function addToCart(productId) {
@@ -1519,6 +2091,7 @@
             const submitBtn = document.getElementById('submitBtn');
             const spinner = document.getElementById('loadingSpinner');
             
+            const productId = document.getElementById('productId').value;
             const productName = document.getElementById('productName').value;
             const productPrice = document.getElementById('productPrice').value;
             const customerName = document.getElementById('customerName').value.trim();
@@ -1542,111 +2115,110 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             spinner.style.display = 'block';
             
-            const whatsappNumber = "6289204920";
-            const totalAmount = productPrice * quantity;
+            // Store order details
+            currentOrderDetails = {
+                productId: parseInt(productId),
+                productName,
+                productPrice: parseInt(productPrice),
+                customerName,
+                phone,
+                email,
+                address,
+                quantity: parseInt(quantity),
+                notes
+            };
             
-            const message = `*🛒 NEW ORDER - SHUTDOWN STORE*%0A%0A` +
-                          `*Product:* ${productName}%0A` +
-                          `*Price:* ₹${productPrice}%0A` +
-                          `*Quantity:* ${quantity}%0A` +
-                          `*Total:* ₹${totalAmount}%0A%0A` +
-                          `*Customer Details:*%0A` +
-                          `👤 Name: ${customerName}%0A` +
-                          `📱 Phone: ${phone}%0A` +
-                          `📧 Email: ${email || 'Not provided'}%0A` +
-                          `📍 Address: ${address}%0A` +
-                          `📝 Notes: ${notes || 'None'}%0A%0A` +
-                          `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A` +
-                          `*Order ID:* SHUT${Date.now().toString().slice(-6)}`;
-            
-            try {
-                await sendToWhatsApp(whatsappNumber, message);
-                
-                showToast("✅ Order sent successfully!");
-                
-                if (currentProductId) {
-                    addToCart(currentProductId);
-                }
-                
-                setTimeout(() => {
-                    closeModal();
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Order';
-                    spinner.style.display = 'none';
-                }, 1500);
-                
-            } catch (error) {
-                showToast("❌ Error sending order. Please try again.");
+            setTimeout(() => {
+                closeModal();
+                openPaymentModal(currentOrderDetails, productName);
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Order';
+                submitBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Proceed to Payment';
                 spinner.style.display = 'none';
-            }
+            }, 1000);
         });
 
-        // Checkout all items
-        async function checkoutAll() {
-            if (cart.length === 0) {
-                showToast("Your cart is empty!");
-                return;
-            }
+        // Share functions
+        function showShareModal() {
+            if (!viewingProductId) return;
             
-            const customerName = prompt("Enter your full name:");
-            if (!customerName) return;
-            
-            const phone = prompt("Enter your 10-digit phone number:");
-            if (!phone || phone.length !== 10 || !/^\d+$/.test(phone)) {
-                showToast("Invalid phone number");
-                return;
-            }
-            
-            const address = prompt("Enter your shipping address (house no, street, city, pincode):");
-            if (!address || address.length < 10) {
-                showToast("Address is too short");
-                return;
-            }
-            
-            const email = prompt("Enter your email (optional):") || "";
-            
-            let orderSummary = `*🛍️ MULTIPLE ITEMS ORDER - SHUTDOWN STORE*%0A%0A`;
-            let totalAmount = 0;
-            
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                totalAmount += itemTotal;
-                orderSummary += `${index + 1}. ${item.name}%0A`;
-                orderSummary += `   Price: ₹${item.price} × ${item.quantity} = ₹${itemTotal}%0A%0A`;
-            });
-            
-            orderSummary += `*Total Amount: ₹${totalAmount}*%0A%0A`;
-            orderSummary += `*Customer Details:*%0A`;
-            orderSummary += `👤 Name: ${customerName}%0A`;
-            orderSummary += `📱 Phone: ${phone}%0A`;
-            orderSummary += `📧 Email: ${email || 'Not provided'}%0A`;
-            orderSummary += `📍 Address: ${address}%0A%0A`;
-            orderSummary += `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A`;
-            orderSummary += `*Order ID:* SHUT${Date.now().toString().slice(-6)}`;
-            
-            try {
-                await sendToWhatsApp("6289204920", orderSummary);
-                
-                showToast("✅ Cart order sent successfully!");
-                
-                cart = [];
-                updateCartCount();
-                saveCartToStorage();
-                closeCart();
-                
-            } catch (error) {
-                showToast("❌ Error sending order");
-            }
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            document.getElementById('shareLinkInput').value = shareLink;
+            document.getElementById('shareModal').style.display = 'flex';
         }
 
-        // Send to WhatsApp
-        async function sendToWhatsApp(number, message) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            console.log("WhatsApp Message:", message);
-            console.log("Would be sent to:", number);
-            return true;
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+
+        function copyShareLink() {
+            const shareLinkInput = document.getElementById('shareLinkInput');
+            shareLinkInput.select();
+            
+            navigator.clipboard.writeText(shareLinkInput.value)
+                .then(() => {
+                    showToast("Product link copied to clipboard!");
+                    closeShareModal();
+                })
+                .catch(err => {
+                    document.execCommand('copy');
+                    showToast("Product link copied to clipboard!");
+                    closeShareModal();
+                });
+        }
+
+        function shareViaWhatsApp() {
+            const shareLink = document.getElementById('shareLinkInput').value;
+            const product = products.find(p => p.id === viewingProductId);
+            const message = `Check out "${product.name}" for ₹${product.price} at SHUTDOWN Store! ${shareLink}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function shareViaFacebook() {
+            const shareLink = document.getElementById('shareLinkInput').value;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        function shareViaTwitter() {
+            const shareLink = document.getElementById('shareLinkInput').value;
+            const product = products.find(p => p.id === viewingProductId);
+            const message = `Check out "${product.name}" at SHUTDOWN Store!`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        function shareProductOnWhatsApp() {
+            if (!viewingProductId) return;
+            const product = products.find(p => p.id === viewingProductId);
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            const message = `Check out "${product.name}" for ₹${product.price} at SHUTDOWN Store! ${shareLink}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function shareProductOnFacebook() {
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        function shareProductOnTwitter() {
+            if (!viewingProductId) return;
+            const product = products.find(p => p.id === viewingProductId);
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${viewingProductId}`;
+            const message = `Check out "${product.name}" at SHUTDOWN Store!`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(shareLink)}`, '_blank');
+        }
+
+        function openShareForProduct(productId) {
+            event.stopPropagation();
+            
+            const shareLink = `${window.location.origin}${window.location.pathname}?product=${productId}`;
+            document.getElementById('shareLinkInput').value = shareLink;
+            document.getElementById('shareModal').style.display = 'flex';
+            viewingProductId = productId;
+        }
+
+        function addToWishlist() {
+            if (!viewingProductId) return;
+            const product = products.find(p => p.id === viewingProductId);
+            showToast(`Added ${product.name} to wishlist!`);
         }
 
         // Show toast
@@ -1694,6 +2266,9 @@
             if (event.target == document.getElementById('shareModal')) {
                 closeShareModal();
             }
+            if (event.target == document.getElementById('paymentModal')) {
+                closePaymentModal();
+            }
         }
 
         // Close on Escape key
@@ -1702,6 +2277,7 @@
                 closeModal();
                 closeCart();
                 closeShareModal();
+                closePaymentModal();
             }
         });
 

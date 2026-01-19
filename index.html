@@ -38,6 +38,7 @@
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            padding-bottom: 80px; /* Space for fixed COD button on mobile */
         }
 
         /* Header */
@@ -472,6 +473,8 @@
             border-radius: 15px;
             overflow: hidden;
             animation: modalSlide 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .payment-header {
@@ -924,6 +927,56 @@
             margin-top: 10px;
         }
 
+        /* COD Quick Order Button - MOBILE ONLY */
+        .cod-quick-order-mobile {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+
+        .cod-mobile-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cod-mobile-info h4 {
+            font-size: 16px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .cod-mobile-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .cod-mobile-btn {
+            background: var(--warning);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .cod-mobile-btn:hover {
+            background: #e68900;
+        }
+
         /* Footer */
         footer {
             background: var(--secondary);
@@ -998,6 +1051,10 @@
         }
 
         @media (max-width: 767px) {
+            body {
+                padding-bottom: 100px; /* More space for COD button on mobile */
+            }
+            
             .btn {
                 padding: 8px 15px;
                 font-size: 13px;
@@ -1028,6 +1085,66 @@
                 min-width: 80px;
                 padding: 10px;
             }
+            
+            /* Show COD Quick Order Button on Mobile */
+            .cod-quick-order-mobile {
+                display: block;
+            }
+            
+            .cod-mobile-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .cod-mobile-info {
+                text-align: center;
+            }
+            
+            .cod-mobile-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px;
+            }
+            
+            /* Adjust payment modal for mobile */
+            .payment-modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            .payment-body {
+                padding: 20px 15px;
+            }
+            
+            .amount-value {
+                font-size: 28px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 24px;
+            }
+            
+            .product-title {
+                font-size: 16px;
+            }
+            
+            .product-price {
+                font-size: 18px;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .cod-mobile-btn {
+                font-size: 14px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
@@ -1049,6 +1166,20 @@
             </div>
         </div>
     </header>
+
+    <!-- COD Quick Order Button - Mobile Only -->
+    <div class="cod-quick-order-mobile" id="codMobileButton">
+        <div class="cod-mobile-content">
+            <div class="cod-mobile-info">
+                <h4>Want Cash on Delivery?</h4>
+                <div class="cod-mobile-price" id="codMobilePrice">₹0</div>
+                <small id="codMobileProduct">Select a product first</small>
+            </div>
+            <button class="cod-mobile-btn" onclick="quickCODOrder()">
+                <i class="fas fa-bolt"></i> COD Order Now
+            </button>
+        </div>
+    </div>
 
     <!-- Home Page -->
     <div id="homePage">
@@ -1123,6 +1254,11 @@
                         </button>
                         <button class="btn btn-wishlist" onclick="addToWishlist()">
                             <i class="fas fa-heart"></i> Wishlist
+                        </button>
+                        <!-- COD Button on Product Page -->
+                        <button class="btn" onclick="quickCODOrderFromProduct()" 
+                                style="background: var(--warning); color: white; flex: 1; min-width: 150px;">
+                            <i class="fas fa-money-bill-wave"></i> COD
                         </button>
                     </div>
                     
@@ -1276,6 +1412,66 @@
         </div>
     </div>
 
+    <!-- Quick COD Modal -->
+    <div class="modal" id="quickCodModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>COD Order - Direct WhatsApp</h2>
+                <button class="close-modal" onclick="closeQuickCodModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-money-bill-wave" style="font-size: 50px; color: var(--warning); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Cash on Delivery Order</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Fill details below to place COD order directly via WhatsApp</p>
+                    
+                    <div style="background: #fff8e1; padding: 15px; border-radius: 10px; border-left: 4px solid var(--warning); margin-bottom: 20px;">
+                        <p><strong>Product:</strong> <span id="codQuickProductName">-</span></p>
+                        <p><strong>Price:</strong> <span id="codQuickProductPrice">₹0</span></p>
+                        <p><strong>Quantity:</strong> <span id="codQuickQuantity">1</span></p>
+                        <p><strong>Total:</strong> <span id="codQuickTotal">₹0</span></p>
+                    </div>
+                </div>
+                
+                <form id="quickCodForm">
+                    <div class="form-group">
+                        <label for="codName">Full Name *</label>
+                        <input type="text" id="codName" class="form-control" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="codPhone">WhatsApp Number *</label>
+                        <input type="tel" id="codPhone" class="form-control" required placeholder="Enter 10-digit WhatsApp number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="codAddress">Full Shipping Address *</label>
+                        <textarea id="codAddress" class="form-control" rows="3" required placeholder="House no, Street, City, State, Pincode"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="codNotes">Special Instructions (Optional)</label>
+                        <textarea id="codNotes" class="form-control" rows="2" placeholder="Delivery time preferences, etc."></textarea>
+                    </div>
+                    
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--success);">
+                        <p><strong>COD Instructions:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Pay when product is delivered</li>
+                            <li>Delivery in 3-7 days</li>
+                            <li>Keep exact cash ready</li>
+                            <li>Verify product before payment</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit" style="background: var(--warning);">
+                        <i class="fab fa-whatsapp"></i> Send COD Order via WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Order Modal -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
@@ -1389,6 +1585,11 @@
                 <button class="btn-submit" onclick="proceedToCheckout()">
                     <i class="fas fa-shopping-bag"></i> Proceed to Checkout
                 </button>
+                
+                <!-- COD Option in Cart -->
+                <button class="btn-submit" onclick="proceedToCODFromCart()" style="background: var(--warning); margin-top: 10px;">
+                    <i class="fas fa-money-bill-wave"></i> Cash on Delivery (COD)
+                </button>
             </div>
         </div>
     </div>
@@ -1415,8 +1616,9 @@
     <script>
         // Your UPI ID
         const YOUR_UPI_ID = "hmoinuddin84@oksbi";
+        const WHATSAPP_NUMBER = "6289204920";
         
-        // Fixed Products Data with corrected syntax
+        // Products Data
         const products = [
             {
                 id: 1,
@@ -1559,12 +1761,14 @@
         let viewingProductId = null;
         let selectedPaymentMethod = 'upi';
         let currentOrderDetails = null;
+        let currentProductForCOD = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             renderProducts();
             loadCartFromStorage();
             checkUrlForProduct();
+            updateCODButton();
         });
 
         // Show home page
@@ -1573,6 +1777,7 @@
             document.getElementById('productPage').style.display = 'none';
             window.scrollTo(0, 0);
             history.pushState({}, '', window.location.pathname);
+            updateCODButton();
         }
 
         // Show product detail page
@@ -1623,9 +1828,224 @@
             
             document.getElementById('productQuantity').value = 1;
             
+            // Update COD button
+            currentProductForCOD = product;
+            updateCODButton();
+            
             history.pushState({}, '', `?product=${productId}`);
             
             window.scrollTo(0, 0);
+        }
+
+        // Update COD button on mobile
+        function updateCODButton() {
+            const codButton = document.getElementById('codMobileButton');
+            const codPrice = document.getElementById('codMobilePrice');
+            const codProduct = document.getElementById('codMobileProduct');
+            
+            if (currentProductForCOD) {
+                codPrice.textContent = `₹${currentProductForCOD.price}`;
+                codProduct.textContent = currentProductForCOD.name.substring(0, 50) + '...';
+                codButton.style.display = 'block';
+            } else {
+                // Check if we're viewing a product
+                if (viewingProductId) {
+                    const product = products.find(p => p.id === viewingProductId);
+                    if (product) {
+                        currentProductForCOD = product;
+                        codPrice.textContent = `₹${product.price}`;
+                        codProduct.textContent = product.name.substring(0, 50) + '...';
+                        codButton.style.display = 'block';
+                    }
+                } else {
+                    codPrice.textContent = '₹0';
+                    codProduct.textContent = 'Select a product first';
+                }
+            }
+        }
+
+        // Quick COD Order from mobile button
+        function quickCODOrder() {
+            if (!currentProductForCOD && !viewingProductId) {
+                showToast("Please select a product first");
+                return;
+            }
+            
+            let product;
+            if (viewingProductId) {
+                product = products.find(p => p.id === viewingProductId);
+            } else {
+                product = currentProductForCOD;
+            }
+            
+            if (!product) {
+                showToast("Product not found");
+                return;
+            }
+            
+            // Fill COD modal
+            document.getElementById('codQuickProductName').textContent = product.name;
+            document.getElementById('codQuickProductPrice').textContent = `₹${product.price}`;
+            document.getElementById('codQuickQuantity').textContent = '1';
+            document.getElementById('codQuickTotal').textContent = `₹${product.price}`;
+            
+            // Reset form
+            document.getElementById('quickCodForm').reset();
+            
+            // Show modal
+            document.getElementById('quickCodModal').style.display = 'flex';
+        }
+
+        // Quick COD Order from product page
+        function quickCODOrderFromProduct() {
+            if (!viewingProductId) return;
+            
+            const product = products.find(p => p.id === viewingProductId);
+            if (!product) return;
+            
+            const quantity = parseInt(document.getElementById('productQuantity').value) || 1;
+            const total = product.price * quantity;
+            
+            // Fill COD modal
+            document.getElementById('codQuickProductName').textContent = product.name;
+            document.getElementById('codQuickProductPrice').textContent = `₹${product.price}`;
+            document.getElementById('codQuickQuantity').textContent = quantity;
+            document.getElementById('codQuickTotal').textContent = `₹${total}`;
+            
+            // Reset form
+            document.getElementById('quickCodForm').reset();
+            
+            // Show modal
+            document.getElementById('quickCodModal').style.display = 'flex';
+        }
+
+        // Close Quick COD Modal
+        function closeQuickCodModal() {
+            document.getElementById('quickCodModal').style.display = 'none';
+        }
+
+        // Handle COD form submission
+        document.getElementById('quickCodForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('codName').value.trim();
+            const phone = document.getElementById('codPhone').value.trim();
+            const address = document.getElementById('codAddress').value.trim();
+            const notes = document.getElementById('codNotes').value.trim();
+            const productName = document.getElementById('codQuickProductName').textContent;
+            const productPrice = document.getElementById('codQuickProductPrice').textContent;
+            const quantity = document.getElementById('codQuickQuantity').textContent;
+            const total = document.getElementById('codQuickTotal').textContent;
+            
+            if (!name || !phone || !address) {
+                showToast("Please fill all required fields");
+                return;
+            }
+            
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showToast("Please enter valid 10-digit phone number");
+                return;
+            }
+            
+            if (address.length < 10) {
+                showToast("Please enter complete address");
+                return;
+            }
+            
+            // Create WhatsApp message
+            const message = `*🛒 COD ORDER - SHUTDOWN STORE*%0A%0A` +
+                           `*Order Details:*%0A` +
+                           `📦 Product: ${productName}%0A` +
+                           `💰 Price: ${productPrice}%0A` +
+                           `🔢 Quantity: ${quantity}%0A` +
+                           `💵 Total: ${total}%0A%0A` +
+                           `*Customer Details:*%0A` +
+                           `👤 Name: ${name}%0A` +
+                           `📱 WhatsApp: ${phone}%0A` +
+                           `📍 Address: ${address}%0A` +
+                           `📝 Notes: ${notes || 'None'}%0A%0A` +
+                           `*Payment Method:* Cash on Delivery%0A` +
+                           `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A` +
+                           `*Order ID:* COD${Date.now().toString().slice(-6)}`;
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+            
+            // Show success message
+            showToast("COD order sent to WhatsApp!");
+            
+            // Close modal
+            closeQuickCodModal();
+            
+            // Clear cart if COD order was from cart
+            if (cart.length > 0) {
+                cart = [];
+                updateCartCount();
+                saveCartToStorage();
+            }
+        });
+
+        // Proceed to COD from cart
+        function proceedToCODFromCart() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+            
+            // Create order summary
+            let orderSummary = '';
+            let totalAmount = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalAmount += itemTotal;
+                orderSummary += `${index + 1}. ${item.name} (₹${item.price} × ${item.quantity}) = ₹${itemTotal}%0A`;
+            });
+            
+            // Ask for customer details
+            const customerName = prompt("Enter your full name for COD order:");
+            if (!customerName) return;
+            
+            const phone = prompt("Enter your 10-digit WhatsApp number:");
+            if (!phone || phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showToast("Invalid phone number");
+                return;
+            }
+            
+            const address = prompt("Enter your shipping address:");
+            if (!address || address.length < 10) {
+                showToast("Address is too short");
+                return;
+            }
+            
+            const notes = prompt("Any special instructions (optional):") || "";
+            
+            // Create WhatsApp message
+            const message = `*🛒 COD CART ORDER - SHUTDOWN STORE*%0A%0A` +
+                           `*Order Summary:*%0A${orderSummary}%0A` +
+                           `*Total Amount:* ₹${totalAmount}%0A%0A` +
+                           `*Customer Details:*%0A` +
+                           `👤 Name: ${customerName}%0A` +
+                           `📱 WhatsApp: ${phone}%0A` +
+                           `📍 Address: ${address}%0A` +
+                           `📝 Notes: ${notes}%0A%0A` +
+                           `*Payment Method:* Cash on Delivery%0A` +
+                           `*Order Time:* ${new Date().toLocaleString('en-IN')}%0A` +
+                           `*Order ID:* COD${Date.now().toString().slice(-6)}`;
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+            
+            // Show success message
+            showToast("COD cart order sent to WhatsApp!");
+            
+            // Close cart
+            closeCart();
+            
+            // Clear cart
+            cart = [];
+            updateCartCount();
+            saveCartToStorage();
         }
 
         // Render products on home page
@@ -1636,7 +2056,11 @@
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
-                productCard.onclick = () => showProductDetail(product.id);
+                productCard.onclick = () => {
+                    showProductDetail(product.id);
+                    currentProductForCOD = product;
+                    updateCODButton();
+                };
                 
                 productCard.innerHTML = `
                     <img src="${product.image}" alt="${product.name}" class="product-img">
@@ -1897,7 +2321,6 @@
         function sendOrderToWhatsApp() {
             if (!currentOrderDetails) return;
             
-            const whatsappNumber = "6289204920";
             let message = '';
             
             if (currentOrderDetails.productId) {
@@ -1945,7 +2368,7 @@
             }
             
             // Open WhatsApp with message
-            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
         }
 
         // Original functions
@@ -2284,6 +2707,9 @@
             if (event.target == document.getElementById('paymentModal')) {
                 closePaymentModal();
             }
+            if (event.target == document.getElementById('quickCodModal')) {
+                closeQuickCodModal();
+            }
         };
 
         // Close on Escape key
@@ -2293,6 +2719,7 @@
                 closeCart();
                 closeShareModal();
                 closePaymentModal();
+                closeQuickCodModal();
             }
         });
 
@@ -2300,6 +2727,26 @@
         window.onpopstate = function() {
             checkUrlForProduct();
         };
+
+        // Auto-hide COD button when scrolling down on mobile
+        let lastScrollTop = 0;
+        const codButton = document.getElementById('codMobileButton');
+        
+        window.addEventListener('scroll', function() {
+            if (window.innerWidth <= 767) { // Mobile only
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    codButton.style.transform = 'translateY(100%)';
+                } else {
+                    // Scrolling up
+                    codButton.style.transform = 'translateY(0)';
+                }
+                
+                lastScrollTop = scrollTop;
+            }
+        });
     </script>
 </body>
 </html>
